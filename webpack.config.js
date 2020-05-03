@@ -3,10 +3,18 @@
 const path = require('path')
 
 module.exports = {
-    entry:'./src/index.js',
+    entry:{
+        index:'./src/index.js',
+        search:'./src/search.js'
+    },
     output:{
         path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
-    mode: 'production'
+    mode: 'production',//'production' //指定当前的构建环境
+    module:{
+        rules:[
+            { test: /\.js$/, use: 'babel-loader'}
+        ]
+    },
 }
