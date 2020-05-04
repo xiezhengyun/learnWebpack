@@ -2,9 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './assets/css/search.less';
-import audio_ico from './assets/images/audio_ico.png';
-import browser from './assets/images/browser.jpg';
+import './search.less';
+import audio_ico from '../assets/images/audio_ico.png';
+import browser from '../assets/images/browser.jpg';
 
 class Search extends React.Component{
 
