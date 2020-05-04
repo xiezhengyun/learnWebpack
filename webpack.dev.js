@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -56,7 +57,8 @@ module.exports = {
         ]
     },
     plugins:[
-        new webpack.HotModuleReplacementPlugin() //自带热更新插件
+        new webpack.HotModuleReplacementPlugin(), //自带热更新插件
+        new CleanWebpackPlugin(), //清除output
     ],
     devServer:{ //使用之前配置package.json，dev命令，然后安装 cnpm i webpack-dev-server -D
         contentBase: './dist',

@@ -2,8 +2,9 @@
 
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //把css代码整理成css文件
-const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -66,14 +67,15 @@ module.exports = {
         ]
     },
     plugins:[
+        new CleanWebpackPlugin(), //清除output
         new MiniCssExtractPlugin({
             filename: '[name]_[contenthash:8].css'
         }),
-        new optimizeCssAssetsWebpackPlugin({ //css代码压缩
+        new OptimizeCssAssetsWebpackPlugin({ //css代码压缩
             assetNameRegExp: /\.css$/g,
             cssProcessor: require('cssnano') //cssnano 预处理器
         }),
-        new htmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src/search.html'), //html 模版所在位置
             filename: 'search.html',
             chunks: ['search'], //生成的html要使用哪些chunks
@@ -88,7 +90,7 @@ module.exports = {
             }
         }),
         //一个页面一个plugin
-        new htmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src/index.html'), //html 模版所在位置
             filename: 'index.html',
             chunks: ['index'], //生成的html要使用哪些chunks
