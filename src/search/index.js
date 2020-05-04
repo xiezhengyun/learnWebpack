@@ -10,7 +10,7 @@ class Search extends React.Component{
 
     render(){
         return <div class="search-text">
-                 搜索页面1
+                 搜索页面12
                 <img src={ browser } class="browser"/>
                 <img src={ audio_ico } class="audio_ico"/>
             </div>

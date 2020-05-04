@@ -48,6 +48,8 @@ const setMpa = ()=>{
     }
 }
 const { entry,HtmlWebpackPlugins } = setMpa();
+console.log(entry)
+console.log(HtmlWebpackPlugins)
 
 module.exports = {
     entry: entry,
