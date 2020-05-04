@@ -1,7 +1,9 @@
 'use strict';
 
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //把css代码整理成css文件
+const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
+const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -66,6 +68,39 @@ module.exports = {
     plugins:[
         new MiniCssExtractPlugin({
             filename: '[name]_[contenthash:8].css'
+        }),
+        new optimizeCssAssetsWebpackPlugin({ //css代码压缩
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require('cssnano') //cssnano 预处理器
+        }),
+        new htmlWebpackPlugin({
+            template: path.join(__dirname, 'src/search.html'), //html 模版所在位置
+            filename: 'search.html',
+            chunks: ['search'], //生成的html要使用哪些chunks
+            inject: true, //打包出来的chunks 比如 js css 自动注入到html里面
+            minify: {
+                html5: true,
+                collapseInlineTagWhitespace: true,
+                preserveLineBreaks: false,
+                minifyCSS: true,
+                minifyJS: true,
+                removeComments: false,
+            }
+        }),
+        //一个页面一个plugin
+        new htmlWebpackPlugin({
+            template: path.join(__dirname, 'src/index.html'), //html 模版所在位置
+            filename: 'index.html',
+            chunks: ['index'], //生成的html要使用哪些chunks
+            inject: true, //打包出来的chunks 比如 js css 自动注入到html里面
+            minify: {
+                html5: true,
+                collapseInlineTagWhitespace: true,
+                preserveLineBreaks: false,
+                minifyCSS: true,
+                minifyJS: true,
+                removeComments: false,
+            }
         })
     ]
    
