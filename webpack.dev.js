@@ -104,5 +104,5 @@ module.exports = {
         contentBase: './dist',
         hot: true,
     },
-    
+    devtool: 'inline-source-map'//'source-map' 'eval'
 }

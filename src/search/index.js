@@ -9,6 +9,7 @@ import browser from '../assets/images/browser.jpg';
 class Search extends React.Component{
 
     render(){
+        a =1;
         return <div class="search-text">
                  搜索页面12
                 <img src={ browser } class="browser"/>
