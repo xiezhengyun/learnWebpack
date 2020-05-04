@@ -80,7 +80,7 @@ module.exports = {
             inject: true, //打包出来的chunks 比如 js css 自动注入到html里面
             minify: {
                 html5: true,
-                collapseInlineTagWhitespace: true,
+                collapseWhitespace: true,
                 preserveLineBreaks: false,
                 minifyCSS: true,
                 minifyJS: true,
@@ -95,11 +95,11 @@ module.exports = {
             inject: true, //打包出来的chunks 比如 js css 自动注入到html里面
             minify: {
                 html5: true,
-                collapseInlineTagWhitespace: true,
+                collapseWhitespace: true,
                 preserveLineBreaks: false,
                 minifyCSS: true,
                 minifyJS: true,
-                removeComments: false,
+                removeComments: false
             }
         })
     ]
