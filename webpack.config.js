@@ -1,6 +1,7 @@
 'use strict';
 
-const path = require('path')
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -11,7 +12,7 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js'
     },
-    mode: 'production', //'production' //指定当前的构建环境
+    mode: 'development', //'production' //指定当前的构建环境
     module: {
         rules: [
             {
@@ -54,4 +55,11 @@ module.exports = {
             }
         ]
     },
+    plugins:[
+        new webpack.HotModuleReplacementPlugin() //自带热更新插件
+    ],
+    devServer:{ //使用之前配置package.json，dev命令，然后安装 cnpm i webpack-dev-server -D
+        contentBase: './dist',
+        hot: true,
+    }
 }

@@ -12,7 +12,7 @@ class Search extends React.Component{
         return <div class="search-text">
                  搜索页面
                 <img src={ browser } class="browser"/>
-                <img src={ audio_ico } />
+                <img src={ audio_ico } class="audio_ico"/>
             </div>
     }
 }
