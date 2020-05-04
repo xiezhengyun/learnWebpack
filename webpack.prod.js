@@ -4,7 +4,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //把css代码整理成css文件
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -13,12 +15,11 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: '[name]_[chunkhash:8].js'  //js文件指纹
+        filename: '[name]_[chunkhash:8].js' //js文件指纹
     },
     mode: 'production', //'production' //指定当前的构建环境
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 use: 'babel-loader'
             },
@@ -34,7 +35,17 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader', //
-                    'less-loader',//先less-loader转译，然后执行css-loader解释css，再传递给style-loader写到页面head || MiniCssExtractPlugin.loader生成文件
+                    'less-loader', //先less-loader转译，然后执行css-loader解释css，再传递给style-loader写到页面head || MiniCssExtractPlugin.loader生成文件
+                    {
+                        loader: 'postcss-loader', 
+                        options: {
+                            plugins: ()=>[  //css3属性前缀补全
+                                require('autoprefixer')({
+                                    browsers: ['last 2 version','>1%','ios 7']
+                                })     
+                            ]
+                        }
+                    },
                 ]
             },
             // {
@@ -43,30 +54,26 @@ module.exports = {
             // },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/,
-                use: [
-                    {
-                        loader: 'url-loader', //设置limit 小于 10k  base64转码
-                        options:{
-                            name:'[name]_[hash:8].[ext]',
-                            limit: 10240
-                        }
+                use: [{
+                    loader: 'url-loader', //设置limit 小于 10k  base64转码
+                    options: {
+                        name: '[name]_[hash:8].[ext]',
+                        limit: 10240
                     }
-                ]
+                }]
             },
             {
                 test: /\.(woff|woff2|eot|TTF|otf)$/, //大小写区分
-                use:[
-                    {
-                        loader: 'file-loader', 
-                        options:{
-                            name:'[name]_[hash:8].[ext]',
-                        }
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name]_[hash:8].[ext]',
                     }
-                ]
+                }]
             }
         ]
     },
-    plugins:[
+    plugins: [
         new CleanWebpackPlugin(), //清除output
         new MiniCssExtractPlugin({
             filename: '[name]_[contenthash:8].css'
@@ -105,5 +112,5 @@ module.exports = {
             }
         })
     ]
-   
+
 }
