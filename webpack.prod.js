@@ -151,6 +151,7 @@ module.exports = {
                     name: 'commons',
                     chunks: 'all',
                     minChunks: 2, //至少引用的次数 2次
+                    //priority: 1 // 优先级 默认按照顺序
                 },
                 vendors: {
                     name: 'vendors',
