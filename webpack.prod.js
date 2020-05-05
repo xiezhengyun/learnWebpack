@@ -61,7 +61,7 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: '[name]_[chunkhash:8].js' //js文件指纹
     },
-    mode: 'none', //'production' //指定当前的构建环境
+    mode: 'production', //'production' //指定当前的构建环境
     module: {
         rules: [{
                 test: /\.js$/,

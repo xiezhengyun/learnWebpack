@@ -9,10 +9,29 @@ import browser from '../assets/images/browser.jpg';
 
 class Search extends React.Component{
 
+    constructor(){
+        super(...arguments);
+
+        this.state = {
+            Text:null
+        }
+    }
+
+    loadComponent(){
+        import('./text.js').then((Text)=>{
+            this.setState({
+                Text:Text.default
+            })
+        });
+    }
+
+
     render(){
+        const { Text } = this.state;
         return <div className="search-text">
                  搜索页面
-                <img src={ browser } className="browser"/>
+                 { Text ? <Text /> : null}
+                <img src={ browser } className="browser" onClick={ this.loadComponent.bind(this) }/>
                 <img src={ audio_ico } className="audio_ico"/>
             </div>
     }
