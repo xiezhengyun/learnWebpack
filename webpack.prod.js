@@ -8,17 +8,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin');
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 
 
-const setMpa = ()=>{
+const setMpa = () => {
     const entry = {};
     const HtmlWebpackPlugins = [];
 
-    const entryFiles = glob.sync(path.join(__dirname,'./src/*/index.js'))
+    const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
     console.log(entryFiles)
     console.log(Object.keys(entryFiles))
     Object.keys(entryFiles)
-        .map((index)=>{
+        .map((index) => {
             const entryFile = entryFiles[index];
             const match = entryFile.match(/src\/(.*)\/index\.js/);
             const pageName = match && match[1];
@@ -28,7 +29,7 @@ const setMpa = ()=>{
                 new HtmlWebpackPlugin({
                     template: path.join(__dirname, `src/${pageName}/index.html`), //html 模版所在位置
                     filename: `${pageName}.html`,
-                    chunks: [pageName], //生成的html要使用哪些chunks
+                    chunks: [pageName,'vendors','commons'], //生成的html要使用哪些chunks
                     inject: true, //打包出来的chunks 比如 js css 自动注入到html里面
                     minify: {
                         html5: true,
@@ -47,7 +48,10 @@ const setMpa = ()=>{
         HtmlWebpackPlugins
     }
 }
-const { entry,HtmlWebpackPlugins } = setMpa();
+const {
+    entry,
+    HtmlWebpackPlugins
+} = setMpa();
 console.log(entry)
 console.log(HtmlWebpackPlugins)
 
@@ -125,8 +129,37 @@ module.exports = {
             assetNameRegExp: /\.css$/g,
             cssProcessor: require('cssnano') //cssnano 预处理器
         }),
+        // new HtmlWebpackExternalsPlugin({ //公共库代码分离
+        //     externals: [{
+        //             module: 'react',
+        //             entry: 'https://11.url.cn/now/lib/16.2.0/react.min.js',
+        //             global: 'React',
+        //         },
+        //         {
+        //             module: 'react-dom',
+        //             entry: 'https://11.url.cn/now/lib/16.2.0/react-dom.min.js',
+        //             global: 'ReactDOM',
+        //         },
+        //     ]
+        // })
     ].concat(HtmlWebpackPlugins),
-
-    devtool: 'inline-source-map'//'source-map' 'eval'
+    optimization: { // 内置 splitChunksPlugin 提取公共资源  
+        splitChunks: {
+            minSize: 0, //引用的模块的大小
+            cacheGroups: {
+                commons: {
+                    name: 'commons',
+                    chunks: 'all',
+                    minChunks: 2, //至少引用的次数 2次
+                },
+                vendors: {
+                    name: 'vendors',
+                    chunks: 'all',
+                    test: /(react|reaxt-dom)/,
+                }
+            }
+        }
+    },
+    devtool: 'inline-source-map' //'source-map' 'eval'
 
 }

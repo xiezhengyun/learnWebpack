@@ -4,6 +4,7 @@ const path = require('path');
 const glob = require('glob');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const setMpa = ()=>{
@@ -63,14 +64,14 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader', //先执行css-loader解释css，再传递给style-loader写到页面head
                 ]
             },
             {
                 test: /\.less$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader', //
                     'less-loader',//先less-loader转译，然后执行css-loader解释css，再传递给style-loader写到页面head
                 ]
@@ -99,6 +100,9 @@ module.exports = {
     plugins:[
         new webpack.HotModuleReplacementPlugin(), //自带热更新插件
         new CleanWebpackPlugin(), //清除output
+        new MiniCssExtractPlugin({
+            filename: '[name]_[contenthash:8].css'
+        }),
     ].concat(HtmlWebpackPlugins),
     devServer:{ //使用之前配置package.json，dev命令，然后安装 cnpm i webpack-dev-server -D
         contentBase: './dist',

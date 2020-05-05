@@ -1,5 +1,6 @@
 'use strict';
 
+import '../../common/index';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './search.less';
@@ -9,11 +10,10 @@ import browser from '../assets/images/browser.jpg';
 class Search extends React.Component{
 
     render(){
-        a =1;
-        return <div class="search-text">
-                 搜索页面12
-                <img src={ browser } class="browser"/>
-                <img src={ audio_ico } class="audio_ico"/>
+        return <div className="search-text">
+                 搜索页面
+                <img src={ browser } className="browser"/>
+                <img src={ audio_ico } className="audio_ico"/>
             </div>
     }
 }
