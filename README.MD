@@ -34,3 +34,47 @@ new HtmlWebpackExternalsPlugin({ //公共库代码分离
 + async 异步引入的库进行分离 vue react （import）
 + initial 同步引入的引入的库分离
 + all 所有引入的库分离
+
+
+### 速度优化策略
+##### 分析插件
++ speed-measure-webpack-plugin 分析整个打包总耗时，每个插件和loader的耗时情况
++ webpack-bundle-analyzer 分析体积,依赖的第三方模块文件大小,业务里面的组件代码大小(会在浏览器图片展示)
+
+##### 优化
+###### 多进程、多实例构建
+1. HappyPack webpack3使用
+2. thread-loader webpack4使用
+
+每次 webpack 解析一个模块，thread- loader 会将它及它的依赖分配给 worker 线程中
+
+###### 并行压缩
+1. 使用 parallel-uglify-plugin 插件
+2. uglifyjs-webpack-plugin 开启 parallel 参数
+3. terser-webpack-plugin 开启 parallel 参数 (比2好，能编译es6)
+
+###### 分包
+使用 DLLPlugin 进行分包，DllReferencePlugin 对 manifest.json 引用。
+
+
+###### 使用缓存
+提升二次构建速度。
+· babel-loader 开启缓存
+· terser-webpack-plugin 开启缓存
+· 使用 cache-loader 或者 hard-source-webpack-plugin
+
+
+###### 缩小构建目标（1.减少文件搜索范围，2.文件名）
+优化 resolve.modules 配置(减少模块搜索层级) 优化 resolve.mainFields 配置
+优化 resolve.extensions 配置
+合理使用 alias
+
+### 体积优化
+###### Scope Hoisting 
+###### Tree-shaking 
+###### 公共资源分离 
+###### 图片压缩
++ image-webpack-loader
++ pngquant
+###### 动态 Polyfill
+识别 User Agent，下发不同的 Polyfill。有开源库。也可自己选择自己要Polyfill的功能。如：promise

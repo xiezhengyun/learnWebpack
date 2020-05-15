@@ -143,8 +143,8 @@ module.exports = {
         //     ]
         // })
     ].concat(HtmlWebpackPlugins),
-    optimization: { // 内置 splitChunksPlugin 提取公共资源  
-        splitChunks: {
+    optimization: { 
+        splitChunks: { // 内置 splitChunksPlugin 提取公共资源  
             minSize: 0, //引用的模块的大小
             cacheGroups: {
                 commons: {
