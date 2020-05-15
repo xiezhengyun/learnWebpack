@@ -13,7 +13,7 @@ devtool 设置
 报错只能定位到行。这一行哪里有错，不能直接定位。
 
 ##  公共脚本分离（2种）
-### HtmlWebpackExternalsPlugin
+### HtmlWebpackExternalsPlugin 基础库分离 用cdn的方式
 ```js
 new HtmlWebpackExternalsPlugin({ //公共库代码分离
             externals: [{
@@ -29,11 +29,17 @@ new HtmlWebpackExternalsPlugin({ //公共库代码分离
             ]
         })
 ```
-### splitChunksPlugin
+### splitChunksPlugin 公共脚本分离 比如多个文件同时引用的脚本
 #### chunks 参数说明
 + async 异步引入的库进行分离 vue react （import）
 + initial 同步引入的引入的库分离
 + all 所有引入的库分离
+
+### 按需加载
++ CommonJS:require.ensure
++ ES6:动态 import(⽬目前还没有原⽣生⽀支持，需要 babel 转换)（vue-router）
+
+### scope hoisting 
 
 
 ### 速度优化策略
@@ -71,10 +77,19 @@ new HtmlWebpackExternalsPlugin({ //公共库代码分离
 
 ### 体积优化
 ###### Scope Hoisting 
++ 原理:将所有模块的代码按照引⽤用顺序放在⼀一个函数作⽤用域⾥里里，然后适当的重命名⼀一
+些变量量以防⽌止变量量名冲突
++ 对⽐: 通过 scope hoisting 可以减少函数声明代码和内存开销
+
 ###### Tree-shaking 
+
 ###### 公共资源分离 
 ###### 图片压缩
 + image-webpack-loader
 + pngquant
+
 ###### 动态 Polyfill
 识别 User Agent，下发不同的 Polyfill。有开源库。也可自己选择自己要Polyfill的功能。如：promise
+
+### 功能模块设计
+![webapck](./src/assets/images/webpack.png)
